@@ -12,6 +12,11 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 <script>
+    if(document.getElementById("edad").value>=15){
+        document.getElementById("eventos").style.display="block";
+    }else{
+        document.getElementById("eventos").style.display="none";
+    }
     
     function calcularEdad() {
         var hoy = new Date();
@@ -24,16 +29,14 @@
         }
         document.getElementById("edad").value=edad;
     }
-
-    if(edad>=15){
-        document.getElementById("eventos").style.display="block";
-    }else{
-        document.getElementById("eventos").style.display="none";
-    }
-
+    
     function precioEventos(){
         if(document.getElementById("eve").value==1){
             document.getElementById("precio").value=0;
+        }else if(document.getElementById("eve").value==2){
+            document.getElementById("precio").value=50000;
+        }else if(document.getElementById("eve").value==3){
+            document.getElementById("precio").value=30000;
         }
     }
 
@@ -72,8 +75,8 @@
                     <input type="text" class="form-control" id="edad" placeholder="Edad" readonly>
                     <label>Edad</label>
                 </div>
-                <div class="accordion" id="accordionPanelsStayOpenExample">
-                    <div class="accordion-item" id="eventos">
+                <div class="accordion" id="eventos">
+                    <div class="accordion-item" id="evento">
                         <h2 class="accordion-header">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                               data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
