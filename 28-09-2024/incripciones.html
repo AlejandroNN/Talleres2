@@ -12,12 +12,8 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 <script>
-    if(document.getElementById("edad").value>=15){
-        document.getElementById("eventos").style.display="block";
-    }else{
-        document.getElementById("eventos").style.display="none";
-    }
-    
+
+
     function calcularEdad() {
         var hoy = new Date();
         var cumpleanos = new Date(document.getElementById("fecha").value);
@@ -27,17 +23,64 @@
         if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
             edad--;
         }
-        document.getElementById("edad").value=edad;
-    }
-    
-    function precioEventos(){
-        if(document.getElementById("eve").value==1){
-            document.getElementById("precio").value=0;
-        }else if(document.getElementById("eve").value==2){
-            document.getElementById("precio").value=50000;
-        }else if(document.getElementById("eve").value==3){
-            document.getElementById("precio").value=30000;
+        document.getElementById("edad").value = edad;
+        if (edad >= 15) {
+            document.getElementById("eventos").style.display = "block";
+        } else {
+            document.getElementById("eventos").style.display = "none";
         }
+    }
+
+
+    function precioEventos() {
+
+        var eventSelect = document.getElementById("eventSelect");
+        var selectedValue = eventSelect.value;
+
+        document.getElementById("Poesia").style.display = "none";
+        document.getElementById("Ciclismo").style.display = "none";
+        document.getElementById("Running").style.display = "none";
+
+        if (selectedValue == 1) {
+            document.getElementById("precioPoesia").innerText = 0;
+            document.getElementById("Poesia").style.display = "block";
+        } else if (selectedValue == 2) {
+            document.getElementById("precioCiclismo").innerText = 50000;
+            document.getElementById("Ciclismo").style.display = "block";
+        } else if (selectedValue == 3) {
+            document.getElementById("precioRunning").innerText = 30000;
+            document.getElementById("Running").style.display = "block";
+
+        }
+    }
+    function calcularPrecio(){
+         document.getElementById("precioNuevo").style.display = "none";
+         var codigoObtenido = document.getElementById("codigoPromocional").value;
+         var eventSelect = document.getElementById("eventSelect").value;
+         if(document.getElementById("codigoPromocional")!=""){
+            document.getElementById("precioNuevo").style.display = "block";
+         }
+         var codigo1 = "12345";
+         var codigo2 = "1234";
+         var codigo3 = "123456";
+         var valorEvento = 0;
+         if (selectedValue == 2) {
+            valorEvento = 50000;
+        } else if (selectedValue == 3) {
+            valorEvento = 30000;
+        }
+         if(codigoObtenido==codigo1){
+            valorEvento*=0.8;
+            codigo1="";
+         }else if(codigoObtenido==codigo2){
+            valorEvento*=0.85;
+            codigo2="";
+         }else if(codigoObtenido==codigo3){
+            valorEvento*=0.7;
+            codigo3="";
+         }
+         document.getElementById("precioActualizado").value=valorEvento;
+         
     }
 
 </script>
@@ -68,46 +111,58 @@
                     <label for="floatingInput">Nombre Completo</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="date" class="form-control" id="fecha" onblur="calcularEdad()" placeholder="name example">
+                    <input type="date" class="form-control" id="fecha" onblur="calcularEdad()"
+                        placeholder="name example">
                     <label for="floatingInput">Fecha de Nacimiento</label>
                 </div>
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="edad" placeholder="Edad" readonly>
                     <label>Edad</label>
                 </div>
-                <div class="accordion" id="eventos">
-                    <div class="accordion-item" id="evento">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item" id="eventos" style="display: none;">
                         <h2 class="accordion-header">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                              data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                              aria-controls="panelsStayOpen-collapseOne">
-                              Eventos
+                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseOne">
+                                Eventos
                             </button>
                         </h2>
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse ">
                             <div class="accordion-body">
                                 <h5>Seleccione al evento</h5>
-                                <select class="form-control" onchange="precioEventos()">
-                                    <option>
-                                        Poesia
-                                    </option>
-                                    <option>
-                                        Ciclismo
-                                    </option>
-                                    <option>
-                                        Running
-                                    </option>
+                                <select class="form-control" id="eventSelect" onchange="precioEventos()">
+                                    <option value="1">Poesía</option>
+                                    <option value="2">Ciclismo</option>
+                                    <option value="3">Running</option>
                                 </select>
+                                
+                                <div id="Poesia" style="display: none; padding: 15px;">
+                                    <h5>El precio del evento es <span id="precioPoesia"></span> </h5>
+                                </div>
+                                <div id="Ciclismo" style="display: none; padding: 15px;">
+                                    <h5>El precio del evento es <span id="precioCiclismo"></span> </h5>
+                                    <h5>Tiene algun cupon de descuento para el evento</h5>
+                                    <input type="text" id="codigoPromocional" placeholder="Ingrese el codigo" onblur="calcularPrecio()">
+                                </div>
+                                <div id="Running" style="display: none; padding: 15px;">
+                                    <h5>El precio del evento es <span id="precioRunning"></span> </h5>
+                                    <h5>Tiene algun cupon de descuento para el evento</h5>
+                                    <input type="text" id="codigoPromocional" placeholder="Ingrese el codigo" onblur="calcularPrecio()">
+                                </div>
+                                <div id="precioNuevo" style="display: none;">
+                                    <h5>El precio con descuento es <span id="precioActualizado"></span></h5>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div style="padding: 40px; text-align: center;">
-                    <a href="#" class="btn btn-primary">Guardar</a>
+                    <a href="index.html" class="btn btn-primary">Guardar</a>
                 </div>
             </div>
         </div>
-        
+
     </div>
 </body>
 
